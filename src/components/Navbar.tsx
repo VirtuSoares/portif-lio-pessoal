@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Moon, Sun } from "lucide-react";
 
 const sections = [
   { id: "hero", label: "Start", level: 1 },
@@ -15,8 +16,15 @@ const sections = [
 export default function Navbar() {
   const [xp, setXp] = useState(0);
   const [level, setLevel] = useState(1);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
+    const savedTheme = window.localStorage.getItem("portfolio-theme");
+    if (savedTheme === "light" || savedTheme === "dark") {
+      document.documentElement.dataset.theme = savedTheme;
+      window.setTimeout(() => setTheme(savedTheme), 0);
+    }
+
     const updateStatus = () => {
       const scrollTop = window.scrollY;
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -40,6 +48,13 @@ export default function Navbar() {
       window.removeEventListener("resize", updateStatus);
     };
   }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    document.documentElement.dataset.theme = nextTheme;
+    window.localStorage.setItem("portfolio-theme", nextTheme);
+  };
 
   return (
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-violet-500/15 bg-[#09090b]/80 backdrop-blur-xl">
@@ -77,6 +92,15 @@ export default function Navbar() {
             </a>
           ))}
         </div>
+        <button
+          type="button"
+          onClick={toggleTheme}
+          aria-label={`Ativar tema ${theme === "dark" ? "claro" : "escuro"}`}
+          title={`Ativar tema ${theme === "dark" ? "claro" : "escuro"}`}
+          className="grid h-9 w-9 shrink-0 place-items-center rounded-md border border-white/10 text-zinc-300 transition hover:border-violet-400/40 hover:bg-violet-500/10 hover:text-violet-300"
+        >
+          {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
+        </button>
       </div>
     </nav>
   );
