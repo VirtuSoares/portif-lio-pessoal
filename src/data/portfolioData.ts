@@ -58,7 +58,7 @@ export const projects: Project[] = [
       "Ferramenta client-side para automatizar o merge de PDFs no RH, construída com pdf-lib e uma proposta de uso alinhada à LGPD.",
     difficulty: "DIFÍCIL",
     stack: ["JavaScript", "pdf-lib", "LGPD", "Automação"],
-    status: "EM PROGUESSO",
+    status: "EM PROGRESSO",
   },
   {
     title: "Conecta Artesanato",
